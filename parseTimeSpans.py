@@ -6,6 +6,8 @@ from datetime import datetime
 from icalendar import Calendar, Event
 from pprint import pprint
 
+formatDate = "%Y%m%dT%H%M%SZ"
+
 def getDates(alertsFilename):
     dates = []
     with open(alertsFilename) as csvfile:
@@ -19,7 +21,38 @@ def getDates(alertsFilename):
 
     return dates
 
-dates = getDates(sys.argv[1])
+def getStatistics(dates):
+    statistics = {}
+    for date in dates.walk():
+        if (date.name == "VEVENT"):
+            s1 = date['DTSTART']
+            s2 = date['DTEND']
+            tdelta = datetime.strptime(s2, formatDate) - datetime.strptime(s1, formatDate)
+            name = date['DESCRIPTION']
+            thisDuration = tdelta.seconds/60
+
+            if (statistics.has_key(date['DESCRIPTION'])):
+                totalDuration = thisDuration + statistics[date['DESCRIPTION']]
+            else:
+                totalDuration = thisDuration
+
+            statistics[date['DESCRIPTION']] = totalDuration
+
+    return statistics
+
+def sortAndFormatStatistics(statistics):
+
+    outString = ""
+
+
+    #TODO Sort string
+    #print statistics.keys()
+    #help(statistics)
+    for statistic in statistics:
+        outString = outString + statistic + "," + str(statistics[statistic]) + "\n"
+
+    #print outString
+    return outString
 
 def isBeginOfTimespan(currentElement, elementBefore):
     if (currentElement['id'] != elementBefore['id']):
@@ -39,8 +72,6 @@ def getIcalDate(beginningElement, endingElement):
     startDate = beginningElement['date']
     endDate = endingElement['date']
 
-    formatDate = "%Y%m%dT%H%M%SZ"
-
     event['DTSTART'] = startDate.strftime(formatDate)
     event['DTEND'] = endDate.strftime(formatDate)
 
@@ -50,35 +81,50 @@ def getIcalDate(beginningElement, endingElement):
     else:
         return None
 
-i = 0
-timeSpanBeginDate = ""
-event = None
-icalString = []
 
-cal = Calendar()
-cal['summary'] = 'Playstation 4 Playtime'
+if __name__ == '__main__':
 
-while i < len(dates):
+    if (len(sys.argv) != 3):
+        print "usage: parseTimeSpans.py logfile.log out.ics"
+        sys.exit(-1)
 
-    if (i == 0):
-        print ("First element")
-        timeSpanBeginDate = dates[i]
-    elif (isBeginOfTimespan(dates[i-1],dates[i])):
-        print ("Timespan Begin ")
-        event = None
-        timeSpanBeginDate = dates[i]
-    elif (i+1 == len(dates)):
-        print ("Last Element")
-        event = getIcalDate(timeSpanBeginDate, dates[i])
-    elif (isBeginOfTimespan(dates[i],dates[i+1])):
-        print ("Timespan End ")
-        event = getIcalDate(timeSpanBeginDate, dates[i])
+    dates = getDates(sys.argv[1])
 
-    if event != None and event != 'null' and timeSpanBeginDate['game'] != "null" and timeSpanBeginDate['game'] != "PowerOff":
-        print("Adding event",event)
-        cal.add_component(event)
+    i = 0
+    timeSpanBeginDate = ""
+    event = None
+    icalString = []
 
-    i=i+1
+    cal = Calendar()
+    cal['summary'] = 'Playstation 4 Playtime'
 
-f = open(sys.argv[2], 'w')
-f.write(cal.to_ical())
+    while i < len(dates):
+
+        if (i == 0):
+            print ("First element")
+            timeSpanBeginDate = dates[i]
+        elif (isBeginOfTimespan(dates[i-1],dates[i])):
+            print ("Timespan Begin ")
+            event = None
+            timeSpanBeginDate = dates[i]
+        elif (i+1 == len(dates)):
+            print ("Last Element")
+            event = getIcalDate(timeSpanBeginDate, dates[i])
+        elif (isBeginOfTimespan(dates[i],dates[i+1])):
+            print ("Timespan End ")
+            event = getIcalDate(timeSpanBeginDate, dates[i])
+
+        if event != None and event != 'null' and timeSpanBeginDate['game'] != "null" and timeSpanBeginDate['game'] != "PowerOff":
+            print("Adding event",event)
+            cal.add_component(event)
+
+        i=i+1
+
+    statistics = getStatistics(cal)
+    statisticsCSV = sortAndFormatStatistics(statistics)
+
+    f = open(sys.argv[2], 'w')
+    f.write(cal.to_ical())
+
+    f = open("statistics.csv", 'w')
+    f.write(statisticsCSV.encode('UTF-8'))
