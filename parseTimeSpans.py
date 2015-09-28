@@ -41,17 +41,11 @@ def getStatistics(dates):
     return statistics
 
 def sortAndFormatStatistics(statistics):
-
     outString = ""
 
-
-    #TODO Sort string
-    #print statistics.keys()
-    #help(statistics)
     for statistic in statistics:
         outString = outString + statistic + "," + str(statistics[statistic]) + "\n"
 
-    #print outString
     return outString
 
 def isBeginOfTimespan(currentElement, elementBefore):
