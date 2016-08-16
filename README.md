@@ -6,6 +6,9 @@ This program helps you keep track of your PS4 gaming habits. It will create an [
 The tools Python, `ps4-wake` and `jq` are needed for this process.
 `ps4-wake` will be built by running `build.sh`. `jq` for JSON parsing and Python can be obtained by your distribution.
 
+Also install the Python requirements with `pip install -r
+requirements.txt`.
+
 ## Usage
 Run `ps4watch.sh` in very short frequency to track what game your PS4 is
 running at the time. After an amount of time the log file will fill with dates:
