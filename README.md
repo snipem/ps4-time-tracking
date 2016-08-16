@@ -3,8 +3,8 @@
 This program helps you keep track of your PS4 gaming habits. It will create an [iCalendar](https://en.wikipedia.org/wiki/ICalendar) file which contains timespans from the time you were playing.
 
 ## Requirements
-The tools `ps4-wake` and `jq` are needed for this process.
-`ps4-wake` will be built by running `build.sh`. `jq` for JSON parsing can be obtained by your distribution.
+The tools Python, `ps4-wake` and `jq` are needed for this process.
+`ps4-wake` will be built by running `build.sh`. `jq` for JSON parsing and Python can be obtained by your distribution.
 
 ## Usage
 Run `ps4watch.sh` in very short frequency to track what game your PS4 is
@@ -33,7 +33,7 @@ running at the time. After an amount of time the log file will fill with dates:
 2016-08-12T16:30+0000,"Destiny","CUSA00219"
 ```
 
-You can generate calendar entries in ics format by running `parseTimeSpans.py ps4logfile.log calendar.ics`.
+You can generate calendar entries in ics format by running `parseTimeSpans.py ps4watch.log calendar.ics`.
 
 Run `ps4ical.sh` to calculate time-spans and to generate an `ics` file out of it. Adapt it to your needs. Currently it contains a statement for FTP uploading to my server.
 
