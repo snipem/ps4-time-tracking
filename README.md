@@ -40,6 +40,8 @@ You can generate calendar entries in ics format by running `parseTimeSpans.py ps
 
 Run `ps4ical.sh` to calculate time-spans and to generate an `ics` file out of it. Adapt it to your needs. Currently it contains a statement for FTP uploading to my server.
 
+`makeScore.sh` is also a utilty custom made for my needs, which will generate a top 10 list of my top games and will notify me whenever a different game enters or moves up the top 10.
+
 If you're subscribing to this calendar, you will get a nice output:
 
 ![Output in Calendar](example.png?raw=true "Output in Calendar")
