@@ -1,4 +1,4 @@
-python2 parseTimeSpans.py ~/log/ps4watch.log ps4_play.ics
+./parseTimeSpans.py ~/log/ps4watch.log ps4_play.ics
 
 checksum_new=`md5sum ps4_play.ics | awk '{print $1}'`
 if [ "$checksum_old" = "$checksum_new" ]; then
