@@ -8,6 +8,8 @@ from datetime import datetime
 from icalendar import Calendar, Event
 from pprint import pprint
 
+import logging
+logging.basicConfig(level=logging.DEBUG)
 formatDate = "%Y%m%dT%H%M%SZ"
 
 def getDates(alertsFilename):
@@ -61,19 +63,19 @@ def isEndOfTimespan(currentElement, nextElement):
 
 def getIcalDate(beginningElement, endingElement):
 
-    event = Event()
+    calendar_event = Event()
     game = beginningElement['game']
-    event.add('summary', game)
+    calendar_event.add('summary', game)
 
     startDate = beginningElement['date']
     endDate = endingElement['date']
 
-    event['DTSTART'] = startDate.strftime(formatDate)
-    event['DTEND'] = endDate.strftime(formatDate)
+    calendar_event['DTSTART'] = startDate.strftime(formatDate)
+    calendar_event['DTEND'] = endDate.strftime(formatDate)
 
-    event.add('description', game)
+    calendar_event.add('description', game)
     if (game is not None and game is not ""):
-        return event
+        return calendar_event
     else:
         return None
 
@@ -85,10 +87,11 @@ if __name__ == '__main__':
         sys.exit(-1)
 
     dates = getDates(sys.argv[1])
+    logging.info("Found %s dates", len(dates))
 
     i = 0
     timeSpanBeginDate = ""
-    event = None
+    calendar_event = None
     icalString = []
 
     cal = Calendar()
@@ -101,18 +104,18 @@ if __name__ == '__main__':
             timeSpanBeginDate = dates[i]
         elif (isBeginOfTimespan(dates[i-1],dates[i])):
             print ("Timespan Begin ")
-            event = None
+            calendar_event = None
             timeSpanBeginDate = dates[i]
         elif (i+1 == len(dates)):
             print ("Last Element")
-            event = getIcalDate(timeSpanBeginDate, dates[i])
+            calendar_event = getIcalDate(timeSpanBeginDate, dates[i])
         elif (isBeginOfTimespan(dates[i],dates[i+1])):
             print ("Timespan End ")
-            event = getIcalDate(timeSpanBeginDate, dates[i])
+            calendar_event = getIcalDate(timeSpanBeginDate, dates[i])
 
-        if event != None and event != 'null' and timeSpanBeginDate['game'] != "null" and timeSpanBeginDate['game'] != "PowerOff":
-            print("Adding event",event)
-            cal.add_component(event)
+        if calendar_event is not None and timeSpanBeginDate['game'] != "null" and timeSpanBeginDate['game'] != "PowerOff":
+            print("Adding event",calendar_event)
+            cal.add_component(calendar_event)
 
         i=i+1
 
