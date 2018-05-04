@@ -5,6 +5,7 @@ This program helps you keep track of your PS4 gaming habits. It will create an [
 ## Requirements
 The tools Python, `ps4-wake` and `jq` are needed for this process.
 `ps4-wake` will be built by running `build.sh`. `jq` for JSON parsing and Python can be obtained by your distribution.
+If you want to use the Telegram Bot you need to install [this Bot Framework](https://github.com/python-telegram-bot/python-telegram-bot) first.
 
 ### Prerequisites
 Install build-essentials (for make), pip, jq from your distribution
@@ -64,3 +65,8 @@ The following crontab setting will run `ps4watch.sh` every 5 minutes between 10p
 */5 0-2 * * * ps4watch.sh
 */30 3-9 * * * ps4watch.sh
 ```
+
+## Bot Usage
+Create new Telegram Bot via Telegrams own BotFather and insert your newly created Api Token in PS4-Time-Bot.py.
+In addition to your Api Token you need to specify the path to your ps4watch.log file.
+Thats it, now you can start PS4-Time-Bot.py with python3 and use your Telegram Bot.
