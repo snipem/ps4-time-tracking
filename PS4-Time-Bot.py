@@ -85,19 +85,37 @@ def ComposeAndSendMsg(update, timeframe, time_format):
     msg_header = ""
     dates = GetTimes(timeframe)
     statistics = MakeStatistics(dates, time_format)
+    timespanStartDate = GetFirstDate(dates).strftime("%d-%m-%Y")
+    timespanEndDate = GetLastDate(dates).strftime("%d-%m-%Y ")
+    msg_header_timespan = "\n" + "From " + timespanStartDate + " to " + timespanEndDate + "\n"
 
     if (timeframe == "week"):
-        msg_header = "Games played last week:"
+        msg_header = "Games played last week:" + msg_header_timespan
     elif (timeframe == "all"):
-        msg_header = "Games played:"
+        msg_header = "Games played:" + msg_header_timespan
     elif (timeframe == "today"):
-        msg_header = "Games played today:"
+        msg_header = "Games played today:" + msg_header_timespan
     elif (timeframe == "month"):
-        msg_header = "Games played last month:"
+        msg_header = "Games played last month:" + msg_header_timespan
     else:
         msg_header = "Games played:"
 
     SendMsg(update, statistics, msg_header, time_format)
+
+
+
+def GetFirstDate(dates):
+    beginningElement = dates[0]
+    startDate = beginningElement['date']
+
+    return startDate
+
+
+def GetLastDate(dates):
+    endingElement = dates[len(dates) - 1]
+    endDate = endingElement['date']
+
+    return endDate
 
 
 def SendMsg(update, statistics, msg_header, time_format):
