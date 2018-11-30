@@ -6,7 +6,7 @@ import datetime
 
 playstation = pyps4.Ps4("0.0.0.0", broadcast=True)
 
-dateTime = datetime.datetime.utcnow().replace(microsecond=0).strftime("%Y-%m-%dT%H:%M+0000")
+dateTime = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M+0000")
 
 appName = None
 titleId = None
