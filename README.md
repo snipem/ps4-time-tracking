@@ -2,19 +2,11 @@
 
 This program helps you keep track of your PS4 gaming habits. It will create an [iCalendar](https://en.wikipedia.org/wiki/ICalendar) file which contains timespans from the time you were playing.
 
-## Requirements
-The tools Python, `ps4-wake` and `jq` are needed for this process.
-`ps4-wake` will be built by running `build.sh`. `jq` for JSON parsing and Python can be obtained by your distribution.
+## Prerequisites
+
+Install the Python requirements with `pip install -r requirements.txt`.
+
 If you want to use the Telegram Bot you need to install [this Bot Framework](https://github.com/python-telegram-bot/python-telegram-bot) first.
-
-### Prerequisites
-Install build-essentials (for make), pip, jq from your distribution
-
-1. Install Prerequisites
-2. Run `build.sh`
-3. Copy the resulting `ps4-wake` to your bin path i.e. `/usr/bin`
-4.  Install the Python requirements with `pip install -r
-requirements.txt`.
 
 ## Usage
 Run `ps4watch.sh` in very short frequency to track what game your PS4 is
