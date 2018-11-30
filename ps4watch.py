@@ -1,9 +1,12 @@
+#!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
+
 import pyps4
 import datetime
 
 playstation = pyps4.Ps4("0.0.0.0", broadcast=True)
 
-dateTime = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M+0000")
+dateTime = datetime.datetime.utcnow().replace(microsecond=0).strftime("%Y-%m-%dT%H:%M+0000")
 
 appName = None
 titleId = None
