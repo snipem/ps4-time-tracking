@@ -9,6 +9,7 @@ Install the Python requirements with `pip install -r requirements.txt`.
 If you want to use the Telegram Bot you need to install [this Bot Framework](https://github.com/python-telegram-bot/python-telegram-bot) first.
 
 ## Usage
+
 Run `ps4watch.sh` in very short frequency to track what game your PS4 is
 running at the time. After an amount of time the log file will fill with dates:
 
@@ -58,12 +59,20 @@ The following crontab setting will run `ps4watch.sh` every 5 minutes between 10p
 */30 3-9 * * * ps4watch.sh
 ```
 
+## Firewall exception
+
+After receiving the request from your client, the PS4 answers on a random UDP port in the range of 30000-65000. You will have to make a firewall exception for these ports. In my case this was:
+
+    firewall-cmd --zone=FedoraServer --add-port=30000-65000/udp
+
 ## Bot Usage
+
 Create new Telegram Bot via Telegrams own BotFather and insert your newly created Api Token in PS4-Time-Bot.py.
 In addition to your Api Token you need to specify the path to your ps4watch.log file.
 Thats it, now you can start PS4-Time-Bot.py with python3 and use your Telegram Bot.
 
 ### Predefined Commands
+
 Chat Commands | Description
 ------------ | -------------
 /times_all | get all playtimes in min
