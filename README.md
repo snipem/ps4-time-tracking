@@ -63,7 +63,7 @@ The following crontab setting will run `ps4watch.sh` every 5 minutes between 10p
 
 After receiving the request from your client, the PS4 answers on a random UDP port in the range of 30000-65000. You will have to make a firewall exception for these ports. In my case this was:
 
-    firewall-cmd --zone=FedoraServer --add-port=30000-65000/udp
+    firewall-cmd --permanent --zone=FedoraServer --add-port=30000-65000/udp
 
 ## Bot Usage
 
